@@ -155,6 +155,56 @@ void LeggedAgent::Step2(double StepSize)
 	if (cx - Leg.FootX > 20) vx = 0.0;
 }
 
+void LeggedAgent::Step2RPG(double StepSize)
+{
+	double force = 0.0;
+
+	// Update the sensory input
+	for (int i = 1; i <= NervousSystem.CircuitSize(); i++){
+		NervousSystem.SetNeuronExternalInput(i, Leg.Angle * 5.0/ForwardAngleLimit); // NOTE: Why 5?
+	}
+	
+	// Update the nervous system
+	NervousSystem.EulerStep(StepSize);
+	// Update the leg effectors
+	if (NervousSystem.NeuronOutput(1) > 0.5) {Leg.FootState = 1; Leg.Omega = 0;}
+	else Leg.FootState = 0;
+	Leg.ForwardForce = NervousSystem.NeuronOutput(1) * MaxLegForce;
+	Leg.BackwardForce = NervousSystem.NeuronOutput(2) * MaxLegForce;
+    double f = Leg.ForwardForce - Leg.BackwardForce;
+	if (Leg.FootState == 1.0)
+		if ((Leg.Angle >= BackwardAngleLimit && Leg.Angle <= ForwardAngleLimit) || 
+		    (Leg.Angle < BackwardAngleLimit && f < 0) || 
+		    (Leg.Angle > ForwardAngleLimit && f > 0))
+		force = f;
+	// Update the position of the body
+	vx = vx + StepSize * force;
+	if (vx < -MaxVelocity) vx = -MaxVelocity;
+	if (vx > MaxVelocity) vx = MaxVelocity;
+	cx = cx + StepSize * vx;
+	// Update the leg geometry
+	Leg.JointX = Leg.JointX + StepSize * vx;
+	if (Leg.FootState == 1.0) {
+		double angle = atan2(Leg.FootX - Leg.JointX,Leg.FootY - Leg.JointY);
+		Leg.Omega = (angle - Leg.Angle)/StepSize;
+		Leg.Angle = angle;
+	}
+	else {
+		vx = 0.0;
+		Leg.Omega	= Leg.Omega + StepSize * MaxTorque * (Leg.BackwardForce - Leg.ForwardForce);
+		if (Leg.Omega < -MaxOmega) Leg.Omega = -MaxOmega;
+		if (Leg.Omega > MaxOmega) Leg.Omega = MaxOmega;
+		Leg.Angle = Leg.Angle + StepSize * Leg.Omega;
+		if (Leg.Angle < BackwardAngleLimit) {Leg.Angle = BackwardAngleLimit; Leg.Omega = 0;}
+		if (Leg.Angle > ForwardAngleLimit) {Leg.Angle = ForwardAngleLimit; Leg.Omega = 0;}
+		Leg.FootX = Leg.JointX + LegLength * sin(Leg.Angle);
+		Leg.FootY = Leg.JointY + LegLength * cos(Leg.Angle);
+	}
+	// If the foot is too far back, the body becomes "unstable" and forward motion ceases
+	if (cx - Leg.FootX > 20) vx = 0.0;
+}
+
+
 // Step the LeggedAgent using a 1-neuron CTRNN CPG
 
 void LeggedAgent::Step1(double StepSize)

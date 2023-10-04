@@ -15,8 +15,8 @@ const double StepSizeAnalysis = 0.01;
 const double RunDurationAnalysis = 2200.0; 
 
 // EA params
-const int POPSIZE = 96;
-const int GENS = 10000; 	// --- 5000
+const int POPSIZE = 10; //96;
+const int GENS = 50; //10000; 	// --- 5000
 const double MUTVAR = 0.01; // --- 0.05
 const double CROSSPROB = 0.0;
 const double EXPECTED = 1.1;
@@ -25,10 +25,11 @@ const double ELITISM = 0.05;
 // Nervous system params
 const int N = 3;
 const double WR = 8.0; // absolute weight range from 0
-const double BR = 16.0; // absolute bias range from 0
+const double BR = 8.0; // absolute bias range from 0
 const double TMIN = 1.0; // minimum time constant
 const double TMAX = 10.0; // maximum time constant
 
+// int	VectSize = 3*N*N + 4*N;
 int	VectSize = N*N + 2*N;
 
 // ------------------------------------
@@ -98,9 +99,9 @@ double FitnessFunction(TVector<double> &genotype, RandomState &rs)
 	// Run the agent
 	for (double time = 0; time < RunDuration; time += StepSize) {
 		Insect.Step(StepSize);
-		cout << Insect.Leg.JointX << " " << Insect.Leg.JointY << " ";
-		cout << Insect.Leg.FootX << " " << Insect.Leg.FootY << " ";
-		cout << Insect.Leg.FootState << endl;
+		// cout << Insect.Leg.JointX << " " << Insect.Leg.JointY << " ";
+		// cout << Insect.Leg.FootX << " " << Insect.Leg.FootY << " ";
+		// cout << Insect.Leg.FootState << endl;
 	}
 
 	return Insect.cx/RunDuration;
