@@ -51,7 +51,6 @@ class LeggedAgent {
     void Reset(double ix, double iy, int randomize, RandomState &rs);
 		void Step(double StepSize);
 		void Step2(double StepSize);
-		void Step2RPG(double StepSize);
 		void Step1(double StepSize);
 		void PerfectStep(double StepSize);
 		
