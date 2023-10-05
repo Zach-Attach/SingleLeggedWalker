@@ -10,8 +10,6 @@
 
 // Global constants
 
-const double Pi = 3.1415926;
-
 
 // The Leg class declaration
 
@@ -23,7 +21,6 @@ class TLeg {
 		~TLeg() {};
 		
 		// Accessors
-		
 		double Angle, Omega, ForwardForce, BackwardForce;
 		double FootX, FootY, JointX, JointY;
 		double FootState;
@@ -55,7 +52,12 @@ class LeggedAgent {
 		void Step1(double StepSize);
 		void PerfectStep(double StepSize);
 		
-		double cx, cy, vx;
-		TLeg Leg;
+		double cx; // position along x axis?
+		double cy; // position along y axis?
+		double vx; // velocity along x axis
+
+		double GetJointX();
+		double GetJointY();
+		double GetFootState();
 		CTRNN NervousSystem;
 };

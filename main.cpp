@@ -99,9 +99,9 @@ double FitnessFunction(TVector<double> &genotype, RandomState &rs)
 	// Run the agent
 	for (double time = 0; time < RunDuration; time += StepSize) {
 		Insect.Step(StepSize);
-		// cout << Insect.Leg.JointX << " " << Insect.Leg.JointY << " ";
+		// cout << Insect.GetJointX << " " << Insect.GetJointY << " ";
 		// cout << Insect.Leg.FootX << " " << Insect.Leg.FootY << " ";
-		// cout << Insect.Leg.FootState << endl;
+		// cout << Insect.GetFootState << endl;
 	}
 
 	return Insect.cx/RunDuration;

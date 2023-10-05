@@ -8,19 +8,30 @@
 #include "random.h"
 
 // Constants
+static const double Pi = 3.1415926;
 
-const int    LegLength = 15;
-const double MaxLegForce = 0.05;
-const double ForwardAngleLimit = Pi/6;
-const double BackwardAngleLimit = -Pi/6;
-const double MaxVelocity = 6.0;
-const double MaxTorque = 0.5;
-const double MaxOmega = 1.0;
+static const int    LegLength = 15;
+static const double MaxLegForce = 0.05;
+static const double ForwardAngleLimit = Pi/6;
+static const double BackwardAngleLimit = -Pi/6;
+static const double MaxVelocity = 6.0;
+static const double MaxTorque = 0.5;
+static const double MaxOmega = 1.0;
 
+TLeg Leg;
+
+double GetJointX() {return Leg.JointX;};
+double GetJointY() {return Leg.JointY;};
+double GetFootState() {return Leg.FootState;};
 
 // *******
 // Control
 // *******
+
+void UpdateFoot(){
+	Leg.FootX = Leg.JointX + LegLength * sin(Leg.Angle);
+	Leg.FootY = Leg.JointY + LegLength * cos(Leg.Angle);
+};
 
 // Reset the state of the agent
 
@@ -32,8 +43,7 @@ void LeggedAgent::Reset(double ix, double iy, int randomize)
 	else Leg.Angle = ForwardAngleLimit;
 	Leg.Omega = Leg.ForwardForce = Leg.BackwardForce = 0.0;
 	Leg.JointX = cx; Leg.JointY = cy + 12.5;
-	Leg.FootX = Leg.JointX + LegLength * sin(Leg.Angle);
-	Leg.FootY = Leg.JointY + LegLength * cos(Leg.Angle);
+	UpdateFoot();
 	if (randomize) NervousSystem.RandomizeCircuitState(-0.1,0.1);
 	else NervousSystem.RandomizeCircuitState(0.0,0.0);	
 }
@@ -46,8 +56,7 @@ void LeggedAgent::Reset(double ix, double iy, int randomize, RandomState &rs)
 	else Leg.Angle = ForwardAngleLimit;
 	Leg.Omega = Leg.ForwardForce = Leg.BackwardForce = 0.0;
 	Leg.JointX = cx; Leg.JointY = cy + 12.5;
-	Leg.FootX = Leg.JointX + LegLength * sin(Leg.Angle);
-	Leg.FootY = Leg.JointY + LegLength * cos(Leg.Angle);
+	UpdateFoot();
 	if (randomize) NervousSystem.RandomizeCircuitState(-0.1,0.1,rs);
 	else NervousSystem.RandomizeCircuitState(0.0,0.0,rs);	
 }
@@ -101,8 +110,7 @@ void LeggedAgent::Step(double StepSize)
 		Leg.Angle = Leg.Angle + StepSize * Leg.Omega;
 		if (Leg.Angle < BackwardAngleLimit) {Leg.Angle = BackwardAngleLimit; Leg.Omega = 0;}
 		if (Leg.Angle > ForwardAngleLimit) {Leg.Angle = ForwardAngleLimit; Leg.Omega = 0;}
-		Leg.FootX = Leg.JointX + LegLength * sin(Leg.Angle);
-		Leg.FootY = Leg.JointY + LegLength * cos(Leg.Angle);
+		UpdateFoot();
 	}
 	// If the foot is too far back, the body becomes "unstable" and forward motion ceases
 	if (cx - Leg.FootX > 20) vx = 0.0;
@@ -148,8 +156,7 @@ void LeggedAgent::Step2(double StepSize)
 		Leg.Angle = Leg.Angle + StepSize * Leg.Omega;
 		if (Leg.Angle < BackwardAngleLimit) {Leg.Angle = BackwardAngleLimit; Leg.Omega = 0;}
 		if (Leg.Angle > ForwardAngleLimit) {Leg.Angle = ForwardAngleLimit; Leg.Omega = 0;}
-		Leg.FootX = Leg.JointX + LegLength * sin(Leg.Angle);
-		Leg.FootY = Leg.JointY + LegLength * cos(Leg.Angle);
+		UpdateFoot();
 	}
 	// If the foot is too far back, the body becomes "unstable" and forward motion ceases
 	if (cx - Leg.FootX > 20) vx = 0.0;
@@ -197,8 +204,7 @@ void LeggedAgent::Step2RPG(double StepSize)
 		Leg.Angle = Leg.Angle + StepSize * Leg.Omega;
 		if (Leg.Angle < BackwardAngleLimit) {Leg.Angle = BackwardAngleLimit; Leg.Omega = 0;}
 		if (Leg.Angle > ForwardAngleLimit) {Leg.Angle = ForwardAngleLimit; Leg.Omega = 0;}
-		Leg.FootX = Leg.JointX + LegLength * sin(Leg.Angle);
-		Leg.FootY = Leg.JointY + LegLength * cos(Leg.Angle);
+		UpdateFoot();
 	}
 	// If the foot is too far back, the body becomes "unstable" and forward motion ceases
 	if (cx - Leg.FootX > 20) vx = 0.0;
@@ -253,8 +259,7 @@ void LeggedAgent::Step1(double StepSize)
 		Leg.Angle = Leg.Angle + StepSize * Leg.Omega;
 		if (Leg.Angle < BackwardAngleLimit) {Leg.Angle = BackwardAngleLimit; Leg.Omega = 0;}
 		if (Leg.Angle > ForwardAngleLimit) {Leg.Angle = ForwardAngleLimit; Leg.Omega = 0;}
-		Leg.FootX = Leg.JointX + LegLength * sin(Leg.Angle);
-		Leg.FootY = Leg.JointY + LegLength * cos(Leg.Angle);
+		UpdateFoot();
 	}
 	// If the foot is too far back, the body becomes "unstable" and forward motion ceases
 	if (cx - Leg.FootX > 20) vx = 0.0;
@@ -293,8 +298,7 @@ void LeggedAgent::PerfectStep(double StepSize)
 		Leg.Angle = Leg.Angle + StepSize * Leg.Omega;
 		if (Leg.Angle < BackwardAngleLimit) {Leg.Angle = BackwardAngleLimit; Leg.Omega = 0;}
 		if (Leg.Angle > ForwardAngleLimit) {Leg.Angle = ForwardAngleLimit; Leg.Omega = 0;}
-		Leg.FootX = Leg.JointX + LegLength * sin(Leg.Angle);
-		Leg.FootY = Leg.JointY + LegLength * cos(Leg.Angle);
+		UpdateFoot();
 	}
 	// If the foot is too far back, the body becomes "unstable" and forward motion ceases
 	if (cx - Leg.FootX > 20) vx = 0.0;
