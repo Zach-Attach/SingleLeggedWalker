@@ -15,8 +15,10 @@ const double StepSizeAnalysis = 0.01;
 const double RunDurationAnalysis = 2200.0; 
 
 // EA params
-const int POPSIZE = 96;
-const int GENS = 10000; 	// --- 5000
+const int POPSIZE = 10;
+const int GENS = 50; 	// --- 5000
+// const int POPSIZE = 96;
+// const int GENS = 10000; 	// --- 5000
 const double MUTVAR = 0.01; // --- 0.05
 const double CROSSPROB = 0.0;
 const double EXPECTED = 1.1;
@@ -25,7 +27,8 @@ const double ELITISM = 0.05;
 // Nervous system params
 const int N = 3;
 const double WR = 8.0; // absolute weight range from 0
-const double BR = 16.0; // absolute bias range from 0
+const double BR = 8.0; // absolute bias range from 0
+// const double BR = 16.0; // absolute bias range from 0
 const double TMIN = 1.0; // minimum time constant
 const double TMAX = 10.0; // maximum time constant
 
@@ -156,7 +159,7 @@ void ResultsDisplay(TSearch &s)
 	BestIndividualFile << Insect.NervousSystem << endl;
 
 	for (int i = 1; i <= VectSize; i++) {
-		BestIndividualFile << phenotype(k) << " ";
+		BestIndividualFile << phenotype(i) << " ";
 	}
 
 	BestIndividualFile << endl;
@@ -169,17 +172,19 @@ void ResultsDisplay(TSearch &s)
 // ------------------------------------
 int main (int argc, const char* argv[]) {
 
-	long randomseed = static_cast<long>(time(NULL));
-	if (argc == 2)
-		randomseed += atoi(argv[1]);
+	// long randomseed = static_cast<long>(time(NULL));
+	// if (argc == 2)
+	// 	randomseed += atoi(argv[1]);
+
+	long randomseed = 765234;
 
 	TSearch s(VectSize);
 
-	// #ifdef PRINTOFILE
-	// ofstream file;
-	// file.open("evol.dat");
-	// cout.rdbuf(file.rdbuf());
-	// #endif
+	#ifdef PRINTOFILE
+	ofstream file;
+	file.open("evol.dat");
+	cout.rdbuf(file.rdbuf());
+	#endif
 
 	// Configure the search
 	s.SetRandomSeed(randomseed);
