@@ -20,9 +20,11 @@ static const double MaxOmega = 1.0;
 
 TLeg Leg;
 
-double GetJointX() {return Leg.JointX;};
-double GetJointY() {return Leg.JointY;};
-double GetFootState() {return Leg.FootState;};
+double LeggedAgent::GetJointX() {return Leg.JointX;};
+double LeggedAgent::GetJointY() {return Leg.JointY;};
+double LeggedAgent::GetFootX() {return Leg.FootX;};
+double LeggedAgent::GetFootY() {return Leg.FootY;};
+double LeggedAgent::GetFootState() {return Leg.FootState;};
 
 // *******
 // Control

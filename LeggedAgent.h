@@ -58,6 +58,8 @@ class LeggedAgent {
 
 		double GetJointX();
 		double GetJointY();
+		double GetFootX();
+		double GetFootY();
 		double GetFootState();
 		CTRNN NervousSystem;
 };
