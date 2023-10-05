@@ -170,9 +170,11 @@ void ResultsDisplay(TSearch &s)
 // ------------------------------------
 int main (int argc, const char* argv[]) {
 
-	long randomseed = static_cast<long>(time(NULL));
-	if (argc == 2)
-		randomseed += atoi(argv[1]);
+	// long randomseed = static_cast<long>(time(NULL));
+	// if (argc == 2)
+	// 	randomseed += atoi(argv[1]);
+
+	long randomseed = 765234;
 
 	TSearch s(VectSize);
 
@@ -184,6 +186,7 @@ int main (int argc, const char* argv[]) {
 
 	// Configure the search
 	s.SetRandomSeed(randomseed);
+	// s.SetRandomSeed(randomseed);
 	s.SetSearchResultsDisplayFunction(ResultsDisplay);
 	s.SetPopulationStatisticsDisplayFunction(EvolutionaryRunDisplay);
 	s.SetSelectionMode(RANK_BASED);
