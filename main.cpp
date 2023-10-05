@@ -157,7 +157,7 @@ void ResultsDisplay(TSearch &s)
 	BestIndividualFile << Insect.NervousSystem << endl;
 
 	for (int i = 1; i <= VectSize; i++) {
-		BestIndividualFile << phenotype(k) << " ";
+		BestIndividualFile << phenotype(i) << " ";
 	}
 
 	BestIndividualFile << endl;
@@ -178,11 +178,11 @@ int main (int argc, const char* argv[]) {
 
 	TSearch s(VectSize);
 
-	// #ifdef PRINTOFILE
-	// ofstream file;
-	// file.open("evol.dat");
-	// cout.rdbuf(file.rdbuf());
-	// #endif
+	#ifdef PRINTOFILE
+	ofstream file;
+	file.open("evol.dat");
+	cout.rdbuf(file.rdbuf());
+	#endif
 
 	// Configure the search
 	s.SetRandomSeed(randomseed);
