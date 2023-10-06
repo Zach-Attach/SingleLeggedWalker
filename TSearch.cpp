@@ -28,7 +28,7 @@
 #include <iostream>
 #include <fstream>
 #include <stdlib.h>
-
+// use thread instead?
 
 // An out of memory handler for new
 

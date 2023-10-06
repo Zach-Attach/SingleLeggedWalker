@@ -4,6 +4,11 @@
 #include "random.h"
 #include <iostream>
 
+#include <fstream>
+#include <iterator>
+#include <string>
+#include <algorithm>
+
 #define PRINTOFILE
 
 // Task params
@@ -96,15 +101,17 @@ double FitnessFunction(TVector<double> &genotype, RandomState &rs)
 
 	Insect.Reset(0, 0, 0); // NOTE: Might be unnecessary?
 
-	// Run the agent
+	std::vector<int> forwardNeurons = {2};
+	std::vector<int> backwardNeurons = {3};
+
 	for (double time = 0; time < RunDuration; time += StepSize) {
-		Insect.Step(StepSize);
+		Insect.Step(StepSize, forwardNeurons, backwardNeurons);
 		cout << Insect.GetJointX() << " " << Insect.GetJointY() << " ";
 		cout << Insect.GetFootX() << " " << Insect.GetFootY() << " ";
 		cout << Insect.GetFootState() << endl;
 	}
 
-	return Insect.cx/RunDuration;
+	return Insect.PositionX()/RunDuration;
 }
 
 // ------------------------------------
@@ -153,7 +160,7 @@ void ResultsDisplay(TSearch &s)
 			k++;
 		}
 	}
-	
+
 	BestIndividualFile << Insect.NervousSystem << endl;
 
 	for (int i = 1; i <= VectSize; i++) {
@@ -163,6 +170,26 @@ void ResultsDisplay(TSearch &s)
 	BestIndividualFile << endl;
 
 	BestIndividualFile.close();
+}
+
+bool compareFiles(const std::string& p1, const std::string& p2) {
+  std::ifstream f1(p1, std::ifstream::binary|std::ifstream::ate);
+  std::ifstream f2(p2, std::ifstream::binary|std::ifstream::ate);
+
+  if (f1.fail() || f2.fail()) {
+    return false; //file problem
+  }
+
+  if (f1.tellg() != f2.tellg()) {
+    return false; //size mismatch
+  }
+
+  //seek back to beginning and use std::equal to compare contents
+  f1.seekg(0, std::ifstream::beg);
+  f2.seekg(0, std::ifstream::beg);
+  return std::equal(std::istreambuf_iterator<char>(f1.rdbuf()),
+                    std::istreambuf_iterator<char>(),
+                    std::istreambuf_iterator<char>(f2.rdbuf()));
 }
 
 // ------------------------------------
@@ -178,10 +205,16 @@ int main (int argc, const char* argv[]) {
 
 	TSearch s(VectSize);
 
+	// #ifdef PRINTOFILE
+	// ofstream file;
+	// file.open("evol.dat");
+	// cout.rdbuf(file.rdbuf());
+	// #endif
+
 	#ifdef PRINTOFILE
-	ofstream file;
-	file.open("evol.dat");
-	cout.rdbuf(file.rdbuf());
+	std::ofstream outfile("evol.dat");
+	auto cout_buff = std::cout.rdbuf();
+	std::cout.rdbuf(outfile.rdbuf()); // anything written to std::cout will now go to myFile.txt instead...
 	#endif
 
 	// Configure the search
@@ -203,6 +236,14 @@ int main (int argc, const char* argv[]) {
 	// Run Stage 1
 	s.SetEvaluationFunction(FitnessFunction);
 	s.ExecuteSearch();
+
+	std::cout.rdbuf(cout_buff);
+	// anything written to std::cout will now go to STDOUT again...
+
+	cout << "Comparing files" << endl;
+	cout << "Best Gen Match: " << compareFiles("best.gen.dat", "test/best.gen.expected.dat") << endl;
+	cout << "Best NS Match: " << compareFiles("best.ns.dat", "test/best.ns.expected.dat") << endl;
+	cout << "Evol Match: " << compareFiles("evol.dat", "test/evol.expected.dat") << endl;
 	
 	// Analysis of best evolved circuit
 	// ifstream genefile;
