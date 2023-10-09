@@ -46,8 +46,7 @@ class LeggedAgent {
 		// Control
     void Reset(double ix, double iy, int randomize = 0);
     void Reset(double ix, double iy, int randomize, RandomState &rs);
-		void Step(double StepSize, vector<int> forwardNeurons, vector<int> backwardNeurons);
-		void Step2(double StepSize);
+		void Step(double StepSize);
 		void Step2RPG(double StepSize);
 		void Step1(double StepSize);
 		void PerfectStep(double StepSize);
@@ -58,6 +57,10 @@ class LeggedAgent {
 		double GetFootY();
 		bool GetFootState();
 		CTRNN NervousSystem;
+
+		void SetMotorCouplings(vector<int> foot, vector<int> forward, vector<int> backward);
+		void SetSensorCouplings(vector<int> foot, vector<int> angle);
 	private:
-		double calculateTotalOutput(vector<int> neurons);
+		double SumOutput(vector<int> neurons);
+		void SensoryUpdate(vector<int> neurons, double stimulus);
 };

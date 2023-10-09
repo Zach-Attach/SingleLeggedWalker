@@ -34,7 +34,6 @@ const double BR = 8.0; // absolute bias range from 0
 const double TMIN = 1.0; // minimum time constant
 const double TMAX = 10.0; // maximum time constant
 
-// int	VectSize = 3*N*N + 4*N;
 int	VectSize = N*N + 2*N;
 
 // ------------------------------------
@@ -76,6 +75,13 @@ double FitnessFunction(TVector<double> &genotype, RandomState &rs)
 	// Create the agent
 	LeggedAgent Insect;
 
+	vector<int> FootMotorNeurons = {1};
+	vector<int> ForwardMotorNeurons = {2};
+	vector<int> BackwardMotorNeurons = {3};
+
+	Insect.SetMotorCouplings(FootMotorNeurons, ForwardMotorNeurons, BackwardMotorNeurons);
+	Insect.SetSensorCouplings({},{});
+
 	// Instantiate the nervous system
 	Insect.NervousSystem.SetCircuitSize(N);
 	
@@ -101,11 +107,8 @@ double FitnessFunction(TVector<double> &genotype, RandomState &rs)
 
 	Insect.Reset(0, 0, 0); // NOTE: Might be unnecessary?
 
-	std::vector<int> forwardNeurons = {2};
-	std::vector<int> backwardNeurons = {3};
-
 	for (double time = 0; time < RunDuration; time += StepSize) {
-		Insect.Step(StepSize, forwardNeurons, backwardNeurons);
+		Insect.Step(StepSize);
 		cout << Insect.GetJointX() << " " << Insect.GetJointY() << " ";
 		cout << Insect.GetFootX() << " " << Insect.GetFootY() << " ";
 		cout << Insect.GetFootState() << endl;
