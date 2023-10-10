@@ -46,7 +46,10 @@ void LeggedAgent::SetPositionX(double newx) {cx = newx;};
 double LeggedAgent::SumOutput(vector<int> neurons){
 	double output = 0.0;
 	for (int i = 0; i < neurons.size(); i++) {
-		output += NervousSystem.NeuronOutput(neurons[i]);
+		if (neurons[i] > 0)
+			output += NervousSystem.NeuronOutput(neurons[i]);
+		else
+			output -= NervousSystem.NeuronOutput(neurons[-i]);
 	}
 	return output;
 };
@@ -119,7 +122,7 @@ void LeggedAgent::Reset(double ix, double iy, int randomize, RandomState &rs)
 void LeggedAgent::Step(double StepSize)
 {
 	SensoryUpdate(AngleSensorNeurons, Leg.Angle * 5.0/ForwardAngleLimit);
-	SensoryUpdate(FootSensorNeurons, Leg.FootState); // TODO: Figure out if it should be scaled by 5 like the other or what
+	SensoryUpdate(FootSensorNeurons, 5.0*Leg.FootState); // TODO: Figure out if it should be scaled by 5 like the other or what
 
 	// Update the nervous system
 	NervousSystem.EulerStep(StepSize);
