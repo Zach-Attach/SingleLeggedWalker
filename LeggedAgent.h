@@ -40,16 +40,22 @@ class LeggedAgent {
 		~LeggedAgent() {};
 		
 		// Accessors
-		double PositionX();
-		void SetPositionX(double newx);
+		double PositionX(void) {return cx;};
+		void SetPositionX(double newx) {cx = newx;};
 		
 		// Control
     void Reset(double ix, double iy, int randomize = 0);
     void Reset(double ix, double iy, int randomize, RandomState &rs);
+		void resetHelper(double ix, double iy, int randomize);
 		void Step(double StepSize);
 		void Step2RPG(double StepSize);
 		void Step1(double StepSize);
 		void PerfectStep(double StepSize);
+
+		double cx; // position along x axis?
+		double cy; // position along y axis?
+		double vx; // velocity along x axis
+		TLeg Leg;
 
 		double GetJointX();
 		double GetJointY();

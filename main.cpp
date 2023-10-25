@@ -9,6 +9,8 @@
 #include <string>
 #include <algorithm>
 
+#include <ctime>
+
 #define PRINTOFILE
 
 // Task params
@@ -20,27 +22,39 @@ const double StepSizeAnalysis = 0.01;
 const double RunDurationAnalysis = 2200.0; 
 
 // EA params
-const int POPSIZE = 10; //96;
-const int GENS = 50; //10000; 	// --- 5000
-const double MUTVAR = 0.01; // --- 0.05
+const int POPSIZE = 96; //10; //96;
+const int GENS = 1000; //50; //10000; 	// --- 5000
+const double MUTVAR = 0.05; //0.01 // --- 0.05
 const double CROSSPROB = 0.0;
 const double EXPECTED = 1.1;
 const double ELITISM = 0.05;
 
 // Nervous system params
-const int N = 3;
+const int N = 2;
 const double WR = 8.0; // absolute weight range from 0
 const double BR = 8.0; // absolute bias range from 0
 const double TMIN = 1.0; // minimum time constant
 const double TMAX = 10.0; // maximum time constant
 
-int	VectSize = N*N + 2*N;
+int	GeneSize = N*N + 2*N + N; // N is added for the coupling parameters
+int	VectSize = N*N + 2*N + 5*N;
+
+string version;
+// string output;
+
+void printVec(string s, std::vector <int> const &a) {
+  std::cout << s;
+
+  for(int i=0; i < a.size(); i++)
+		std::cout << a.at(i) << ' ';
+
+	std::cout << endl;
+}
 
 // ------------------------------------
 // Genotype-Phenotype Mapping Functions
 // ------------------------------------
-void GenPhenMapping(TVector<double> &gen, TVector<double> &phen)
-{
+void GenPhenMapping(TVector<double> &gen, TVector<double> &phen) {
 	int k = 1;
 	// TODO: Parallelize this, may need to upgrade to C++17 see: https://stackoverflow.com/questions/36246300/parallel-loops-in-c
 	// Time-constants
@@ -60,27 +74,39 @@ void GenPhenMapping(TVector<double> &gen, TVector<double> &phen)
 			k++;
 		}
 	}
+
+	int kg = k;
+	int kp = k;
+
+	// Couplings
+	for (int n = 0; n < N; n++, kg++) {
+		double g = (gen(kg) + 1) / 2; // normalize to 0..1
+		for (int s = 1; s <= 5; s++, kp++) {
+			if (g < pow(3,-s)) {
+				g -= pow(3,-s);
+				phen(kp) = -1;
+			} else if (g < pow(3,-2*s)){
+				g -= pow(3, -2*s);
+				phen(kp) = 0;
+			} else {
+				g -= pow(3, -3*s);
+				phen(kp) = 1;
+			}
+		}
+	}
 }
 
 // ------------------------------------
 // Fitness function
 // ------------------------------------
-double FitnessFunction(TVector<double> &genotype, RandomState &rs)
-{
-	// Map genootype to phenotype
+double FitnessFunction(TVector<double> &genotype, RandomState &rs) {
+	// Map genotype to phenotype
 	TVector<double> phenotype;
 	phenotype.SetBounds(1, VectSize);
 	GenPhenMapping(genotype, phenotype);
 
 	// Create the agent
 	LeggedAgent Insect;
-
-	vector<int> FootMotorNeurons = {1};
-	vector<int> ForwardMotorNeurons = {2};
-	vector<int> BackwardMotorNeurons = {3};
-
-	Insect.SetMotorCouplings(FootMotorNeurons, ForwardMotorNeurons, BackwardMotorNeurons);
-	Insect.SetSensorCouplings({},{});
 
 	// Instantiate the nervous system
 	Insect.NervousSystem.SetCircuitSize(N);
@@ -105,41 +131,63 @@ double FitnessFunction(TVector<double> &genotype, RandomState &rs)
 		}
 	}
 
+	vector<vector<int> > couplings = {{},{},{},{},{}};
+
+	for (int n = 1; n <= N; n++) {
+		for (int s = 0; s < 5; s++, k++) {
+			if (phenotype[k] != 0)
+				couplings[s].push_back(phenotype(k)*n);
+		}
+	}
+
+	Insect.SetMotorCouplings(couplings[0], couplings[1], couplings[2]);
+	Insect.SetSensorCouplings(couplings[3], couplings[4]);
+
 	Insect.Reset(0, 0, 0); // NOTE: Might be unnecessary?
 
 	for (double time = 0; time < RunDuration; time += StepSize) {
 		Insect.Step(StepSize);
-		cout << Insect.GetJointX() << " " << Insect.GetJointY() << " ";
-		cout << Insect.GetFootX() << " " << Insect.GetFootY() << " ";
-		cout << Insect.GetFootState() << endl;
+		// cout << Insect.GetJointX() << " " << Insect.GetJointY() << " ";
+		// cout << Insect.GetFootX() << " " << Insect.GetFootY() << " ";
+		// cout << Insect.GetFootState() << endl;
 	}
 
-	return Insect.PositionX()/RunDuration;
+	double fitness = Insect.PositionX()/RunDuration;
+
+	// if (fitness > 0.0) {
+	// 	for (k = 1; k <= VectSize; k++) {
+	// 		output += to_string(phenotype(k)) + " ";
+	// 	}
+
+	// 	output += to_string(fitness) + "\n";
+	// }
+	
+	return fitness;
 }
 
 // ------------------------------------
 // Display functions
 // ------------------------------------
-void EvolutionaryRunDisplay(int Generation, double BestPerf, double AvgPerf, double PerfVar)
-{
+void EvolutionaryRunDisplay(int Generation, double BestPerf, double AvgPerf, double PerfVar) {
 	cout << Generation << " " << BestPerf << " " << AvgPerf << " " << PerfVar << endl;
 }
 
-void ResultsDisplay(TSearch &s)
-{
+void ResultsDisplay(TSearch &s) {
 	TVector<double> bestVector;
 	ofstream BestIndividualFile;
 	TVector<double> phenotype;
 	phenotype.SetBounds(1, VectSize);
 
+	std::time_t t = std::time(nullptr);
+
 	// Save the genotype of the best individual
 	bestVector = s.BestIndividual();
-	BestIndividualFile.open("best.gen.dat");
+	BestIndividualFile.open("out/"+to_string(N)+"/"+"best/gen/"+to_string(t)+"_" + version +".dat");
 	BestIndividualFile << bestVector << endl;
 	BestIndividualFile.close();
 
 	// Also show the best individual in the Circuit Model form
-	BestIndividualFile.open("best.ns.dat");
+	BestIndividualFile.open("out/"+to_string(N)+"/"+"best/ns/"+to_string(t)+"_" + version +".dat");
 	GenPhenMapping(bestVector, phenotype);
 	LeggedAgent Insect;
 	// Instantiate the nervous system
@@ -163,6 +211,19 @@ void ResultsDisplay(TSearch &s)
 			k++;
 		}
 	}
+
+	vector<vector<int> > couplings = {{},{},{},{},{}};
+
+	for (int n = 1; n <= N; n++) {
+		for (int s = 0; s < 5; s++) {
+			if (phenotype[k] != 0)
+				couplings[s].push_back(phenotype(k)*n);
+			k++;
+		}
+	}
+
+	Insect.SetMotorCouplings(couplings[0], couplings[1], couplings[2]);
+	Insect.SetSensorCouplings(couplings[3], couplings[4]);
 
 	BestIndividualFile << Insect.NervousSystem << endl;
 
@@ -195,18 +256,23 @@ bool compareFiles(const std::string& p1, const std::string& p2) {
                     std::istreambuf_iterator<char>(f2.rdbuf()));
 }
 
-// ------------------------------------
-// The main program
-// ------------------------------------
+void test () {
+	cout << "Comparing files" << endl;
+	cout << "Best Gen Match: " << compareFiles("best.gen.dat", "test/best.gen.expected.dat") << endl;
+	cout << "Best NS Match: " << compareFiles("best.ns.dat", "test/best.ns.expected.dat") << endl;
+	cout << "Evol Match: " << compareFiles("evol.dat", "test/evol.expected.dat") << endl;
+}
+
 int main (int argc, const char* argv[]) {
 
-	// long randomseed = static_cast<long>(time(NULL));
-	// if (argc == 2)
-	// 	randomseed += atoi(argv[1]);
+	version = argv[1];
+	std::time_t t = std::time(nullptr);
+	// create randomseed from time in seconds and add version number*10^6 and remove 10^9 seconds to prevent hitting max long value and overflowing
+	long randomseed = ((long) t) - pow(10,9) + stol(version)*pow(10,6);
 
-	long randomseed = 765234;
+	// long randomseed = 765234;
 
-	TSearch s(VectSize);
+	TSearch s(GeneSize);
 
 	// #ifdef PRINTOFILE
 	// ofstream file;
@@ -215,14 +281,13 @@ int main (int argc, const char* argv[]) {
 	// #endif
 
 	#ifdef PRINTOFILE
-	std::ofstream outfile("evol.dat");
+	std::ofstream outfile("out/"+to_string(N)+"/"+"evol/" + to_string(t)+ "_" + version + ".dat");
 	auto cout_buff = std::cout.rdbuf();
 	std::cout.rdbuf(outfile.rdbuf()); // anything written to std::cout will now go to myFile.txt instead...
 	#endif
 
 	// Configure the search
 	s.SetRandomSeed(randomseed);
-	// s.SetRandomSeed(randomseed);
 	s.SetSearchResultsDisplayFunction(ResultsDisplay);
 	s.SetPopulationStatisticsDisplayFunction(EvolutionaryRunDisplay);
 	s.SetSelectionMode(RANK_BASED);
@@ -240,13 +305,10 @@ int main (int argc, const char* argv[]) {
 	s.SetEvaluationFunction(FitnessFunction);
 	s.ExecuteSearch();
 
-	std::cout.rdbuf(cout_buff);
+	// std::cout.rdbuf(cout_buff);
 	// anything written to std::cout will now go to STDOUT again...
 
-	cout << "Comparing files" << endl;
-	cout << "Best Gen Match: " << compareFiles("best.gen.dat", "test/best.gen.expected.dat") << endl;
-	cout << "Best NS Match: " << compareFiles("best.ns.dat", "test/best.ns.expected.dat") << endl;
-	cout << "Evol Match: " << compareFiles("evol.dat", "test/evol.expected.dat") << endl;
+	// test();
 	
 	// Analysis of best evolved circuit
 	// ifstream genefile;
@@ -256,6 +318,8 @@ int main (int argc, const char* argv[]) {
 	// Map(genotype);
 	// // Traces(genotype);
 	// genefile.close();
+
+	// cout << output;
 
 	return 0;
 }

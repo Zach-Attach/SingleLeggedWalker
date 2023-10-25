@@ -3,17 +3,17 @@
 // *****************************
 
 // Uncomment the following line to enable multithreading
-//#define THREADED_SEARCH
-#define THREAD_COUNT 2
+// #define THREADED_SEARCH
+// #define THREAD_COUNT 2
 
 
 #pragma once
 
 #include "VectorMatrix.h"
 #include "random.h"
-#ifdef THREADED_SEARCH
-  #include <pthread.h>
-#endif
+// #ifdef THREADED_SEARCH
+//   #include <pthread.h>
+// #endif
 
 using namespace std;
 
@@ -22,10 +22,13 @@ using namespace std;
 
 inline double clip(double x, double min, double max)
 {
-	double temp;
-	
-	temp = ((x > min)?x:min);
-	return (temp < max)?temp:max;
+	if (x<min){
+		return min;
+	} else if (x>max){
+		return max;
+	} else {
+		return x;
+	}
 }
 
 

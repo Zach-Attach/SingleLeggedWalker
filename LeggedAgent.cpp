@@ -18,10 +18,6 @@ static const double MaxVelocity = 6.0;
 static const double MaxTorque = 0.5;
 static const double MaxOmega = 1.0;
 
-double cx; // position along x axis?
-double cy; // position along y axis?
-double vx; // velocity along x axis
-
 vector<int> FootMotorNeurons = {};
 vector<int> ForwardMotorNeurons = {};
 vector<int> BackwardMotorNeurons = {};
@@ -36,9 +32,6 @@ double LeggedAgent::GetFootX() {return Leg.FootX;};
 double LeggedAgent::GetFootY() {return Leg.FootY;};
 bool LeggedAgent::GetFootState() {return Leg.FootState;};
 
-double LeggedAgent::PositionX() {return cx;};
-void LeggedAgent::SetPositionX(double newx) {cx = newx;};
-
 // *******
 // Control
 // *******
@@ -46,17 +39,21 @@ void LeggedAgent::SetPositionX(double newx) {cx = newx;};
 double LeggedAgent::SumOutput(vector<int> neurons){
 	double output = 0.0;
 	for (int i = 0; i < neurons.size(); i++) {
-		if (neurons[i] > 0)
+		if (neurons[i] > 0) {
 			output += NervousSystem.NeuronOutput(neurons[i]);
-		else
-			output -= NervousSystem.NeuronOutput(neurons[-i]);
+		} else if (neurons[i] < 0) {
+			output -= NervousSystem.NeuronOutput(-neurons[i]);
+		}
 	}
 	return output;
 };
 
 void LeggedAgent::SensoryUpdate(vector<int> neurons, double stimulus){
-	for (int i = 0; i < neurons.size(); i++){
-		NervousSystem.SetNeuronExternalInput(neurons[i], stimulus); // NOTE: Why 5?
+	for (int i = 0; i < neurons.size(); i++) {
+		if (neurons[i] > 0) 
+			NervousSystem.SetNeuronExternalInput(neurons[i], stimulus);
+		else if (neurons[i] < 0)
+			NervousSystem.SetNeuronExternalInput(-neurons[i], -stimulus);
 	}
 }
 
@@ -72,7 +69,7 @@ double cap(double value, double min, double max){
 }
 
 // Reset the state of the agent
-void resetHelper(double ix, double iy, int randomize){
+void LeggedAgent::resetHelper(double ix, double iy, int randomize){
 	cx = ix;
 	cy = iy;
 	vx = 0.0;
@@ -97,7 +94,7 @@ void LeggedAgent::SetMotorCouplings(vector<int> foot, vector<int> forward, vecto
 	BackwardMotorNeurons = backward;
 }
 
-void LeggedAgent::SetSensorCouplings(vector<int> foot, vector<int> angle){ // TOD: does this need to be in header?
+void LeggedAgent::SetSensorCouplings(vector<int> foot, vector<int> angle){ // TODO: does this need to be in header?
 	FootSensorNeurons = foot;
 	AngleSensorNeurons = angle;
 }
@@ -117,13 +114,10 @@ void LeggedAgent::Reset(double ix, double iy, int randomize, RandomState &rs)
 }
 
 // Step the insect using a general CTRNN CPG
-
-// void LeggedAgent::Step(double StepSize, int ForwardMotorNeurons[], int ForwardMotorNeuronsSize, int backwardNeurons[], int backwardNeuronsSize)
 void LeggedAgent::Step(double StepSize)
 {
 	SensoryUpdate(AngleSensorNeurons, Leg.Angle * 5.0/ForwardAngleLimit);
 	SensoryUpdate(FootSensorNeurons, 5.0*Leg.FootState); // TODO: Figure out if it should be scaled by 5 like the other or what
-
 	// Update the nervous system
 	NervousSystem.EulerStep(StepSize);
 	// Update the leg effectors
@@ -137,7 +131,7 @@ void LeggedAgent::Step(double StepSize)
 	Leg.ForwardForce = MaxLegForce * SumOutput(ForwardMotorNeurons);
 	Leg.BackwardForce = MaxLegForce * SumOutput(BackwardMotorNeurons);
 
-	// Compute the force applied to the body
+		// Compute the force applied to the body
 	double force = (Leg.FootState == 1 && safeMove()) ? Leg.ForwardForce - Leg.BackwardForce : 0.0;
 
 	// Update the position of the body
@@ -167,4 +161,4 @@ void LeggedAgent::Step(double StepSize)
 
 	// If the foot is too far back, the body becomes "unstable" and forward motion ceases
 	if (cx - Leg.FootX > 20) vx = 0.0;
-}
+	}
