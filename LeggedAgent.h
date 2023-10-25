@@ -64,9 +64,9 @@ class LeggedAgent {
 		bool GetFootState();
 		CTRNN NervousSystem;
 
-		void SetMotorCouplings(vector<int> foot, vector<int> forward, vector<int> backward);
-		void SetSensorCouplings(vector<int> foot, vector<int> angle);
+		void SetMotorCouplings(std::vector<int> foot, std::vector<int> forward, std::vector<int> backward);
+		void SetSensorCouplings(std::vector<int> foot, std::vector<int> angle);
 	private:
-		double SumOutput(vector<int> neurons);
-		void SensoryUpdate(vector<int> neurons, double stimulus);
+		double SumOutput(std::vector<int> neurons);
+		void SensoryUpdate(std::vector<int> neurons, double stimulus);
 };

@@ -8,6 +8,7 @@
 #include <iterator>
 #include <string>
 #include <algorithm>
+#include<vector>
 
 #include <ctime>
 
@@ -131,7 +132,7 @@ double FitnessFunction(TVector<double> &genotype, RandomState &rs) {
 		}
 	}
 
-	vector<vector<int> > couplings = {{},{},{},{},{}};
+	std::vector<std::vector<int> > couplings = {{},{},{},{},{}};
 
 	for (int n = 1; n <= N; n++) {
 		for (int s = 0; s < 5; s++, k++) {
@@ -212,7 +213,7 @@ void ResultsDisplay(TSearch &s) {
 		}
 	}
 
-	vector<vector<int> > couplings = {{},{},{},{},{}};
+	std::vector<std::vector<int> > couplings = {{},{},{},{},{}};
 
 	for (int n = 1; n <= N; n++) {
 		for (int s = 0; s < 5; s++) {

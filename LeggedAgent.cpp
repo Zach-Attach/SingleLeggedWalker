@@ -6,6 +6,7 @@
 
 #include "LeggedAgent.h"
 #include "random.h"
+#include<vector>
 
 // Constants
 static const double Pi = 3.1415926;
@@ -18,11 +19,11 @@ static const double MaxVelocity = 6.0;
 static const double MaxTorque = 0.5;
 static const double MaxOmega = 1.0;
 
-vector<int> FootMotorNeurons = {};
-vector<int> ForwardMotorNeurons = {};
-vector<int> BackwardMotorNeurons = {};
-vector<int> FootSensorNeurons = {};
-vector<int> AngleSensorNeurons = {};
+std::vector<int> FootMotorNeurons = {};
+std::vector<int> ForwardMotorNeurons = {};
+std::vector<int> BackwardMotorNeurons = {};
+std::vector<int> FootSensorNeurons = {};
+std::vector<int> AngleSensorNeurons = {};
 
 TLeg Leg;
 
@@ -36,7 +37,7 @@ bool LeggedAgent::GetFootState() {return Leg.FootState;};
 // Control
 // *******
 
-double LeggedAgent::SumOutput(vector<int> neurons){
+double LeggedAgent::SumOutput(std::vector<int> neurons){
 	double output = 0.0;
 	for (int i = 0; i < neurons.size(); i++) {
 		if (neurons[i] > 0) {
@@ -48,7 +49,7 @@ double LeggedAgent::SumOutput(vector<int> neurons){
 	return output;
 };
 
-void LeggedAgent::SensoryUpdate(vector<int> neurons, double stimulus){
+void LeggedAgent::SensoryUpdate(std::vector<int> neurons, double stimulus){
 	for (int i = 0; i < neurons.size(); i++) {
 		if (neurons[i] > 0) 
 			NervousSystem.SetNeuronExternalInput(neurons[i], stimulus);
@@ -88,13 +89,13 @@ bool safeMove(){
 		(Leg.Angle > ForwardAngleLimit && Leg.ForwardForce > Leg.BackwardForce));
 }
 
-void LeggedAgent::SetMotorCouplings(vector<int> foot, vector<int> forward, vector<int> backward){ // TOD: does this need to be in header?
+void LeggedAgent::SetMotorCouplings(std::vector<int> foot, std::vector<int> forward, std::vector<int> backward){ // TOD: does this need to be in header?
 	FootMotorNeurons = foot;
 	ForwardMotorNeurons = forward;
 	BackwardMotorNeurons = backward;
 }
 
-void LeggedAgent::SetSensorCouplings(vector<int> foot, vector<int> angle){ // TODO: does this need to be in header?
+void LeggedAgent::SetSensorCouplings(std::vector<int> foot, std::vector<int> angle){ // TODO: does this need to be in header?
 	FootSensorNeurons = foot;
 	AngleSensorNeurons = angle;
 }
