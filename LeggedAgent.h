@@ -7,6 +7,7 @@
 #pragma once
 
 #include "CTRNN.h"
+#include<vector>
 
 // Global constants
 
