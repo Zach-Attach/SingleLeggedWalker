@@ -9,7 +9,7 @@ command(){
 
 for i in {1..50}
 do
-  for j in {1..250}
+  for j in {1..242}
   do
     command $j &
   done

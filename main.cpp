@@ -23,24 +23,26 @@ const double StepSizeAnalysis = 0.01;
 const double RunDurationAnalysis = 2200.0; 
 
 // EA params
-const int POPSIZE = 96; //10; //96;
-const int GENS = 1000; //50; //10000; 	// --- 5000
+const int POPSIZE = 10; //96; //10; //96;
+const int GENS = 50; //1000; //50; //10000; 	// --- 5000
 const double MUTVAR = 0.05; //0.01 // --- 0.05
 const double CROSSPROB = 0.0;
 const double EXPECTED = 1.1;
 const double ELITISM = 0.05;
 
 // Nervous system params
-const int N = 2;
+int N; // 1, 2, or 3
 const double WR = 8.0; // absolute weight range from 0
 const double BR = 8.0; // absolute bias range from 0
 const double TMIN = 1.0; // minimum time constant
 const double TMAX = 10.0; // maximum time constant
 
-int	GeneSize = N*N + 2*N + N; // N is added for the coupling parameters
-int	VectSize = N*N + 2*N + 5*N;
+int	GeneSize;// = N*N + 2*N + N; // N is added for the coupling parameters
+// int	VectSize;// = N*N + 2*N + 5*N;
 
-string version;
+std::vector<std::vector<int>> COUPLINGS = {{},{},{},{},{}};
+
+string fileName;
 // string output;
 
 void printVec(string s, std::vector <int> const &a) {
@@ -80,21 +82,21 @@ void GenPhenMapping(TVector<double> &gen, TVector<double> &phen) {
 	int kp = k;
 
 	// Couplings
-	for (int n = 0; n < N; n++, kg++) {
-		double g = (gen(kg) + 1) / 2; // normalize to 0..1
-		for (int s = 1; s <= 5; s++, kp++) {
-			if (g < pow(3,-s)) {
-				g -= pow(3,-s);
-				phen(kp) = -1;
-			} else if (g < pow(3,-2*s)){
-				g -= pow(3, -2*s);
-				phen(kp) = 0;
-			} else {
-				g -= pow(3, -3*s);
-				phen(kp) = 1;
-			}
-		}
-	}
+	// for (int n = 0; n < N; n++, kg++) {
+	// 	double g = (gen(kg) + 1) / 2; // normalize to 0..1
+	// 	for (int s = 1; s <= 5; s++, kp++) {
+	// 		if (g < pow(3,-s)) {
+	// 			g -= pow(3,-s);
+	// 			phen(kp) = -1;
+	// 		} else if (g < pow(3,-2*s)){
+	// 			g -= pow(3, -2*s);
+	// 			phen(kp) = 0;
+	// 		} else {
+	// 			g -= pow(3, -3*s);
+	// 			phen(kp) = 1;
+	// 		}
+	// 	}
+	// }
 }
 
 // ------------------------------------
@@ -103,7 +105,7 @@ void GenPhenMapping(TVector<double> &gen, TVector<double> &phen) {
 double FitnessFunction(TVector<double> &genotype, RandomState &rs) {
 	// Map genotype to phenotype
 	TVector<double> phenotype;
-	phenotype.SetBounds(1, VectSize);
+	phenotype.SetBounds(1, GeneSize);
 	GenPhenMapping(genotype, phenotype);
 
 	// Create the agent
@@ -132,17 +134,17 @@ double FitnessFunction(TVector<double> &genotype, RandomState &rs) {
 		}
 	}
 
-	std::vector<std::vector<int> > couplings = {{},{},{},{},{}};
+	// std::vector<std::vector<int> > couplings = {{},{},{},{},{}};
 
-	for (int n = 1; n <= N; n++) {
-		for (int s = 0; s < 5; s++, k++) {
-			if (phenotype[k] != 0)
-				couplings[s].push_back(phenotype(k)*n);
-		}
-	}
+	// for (int n = 1; n <= N; n++) {
+	// 	for (int s = 0; s < 5; s++, k++) {
+	// 		if (phenotype[k] != 0)
+	// 			couplings[s].push_back(phenotype(k)*n);
+	// 	}
+	// }
 
-	Insect.SetMotorCouplings(couplings[0], couplings[1], couplings[2]);
-	Insect.SetSensorCouplings(couplings[3], couplings[4]);
+	Insect.SetMotorCouplings(COUPLINGS[0], COUPLINGS[1], COUPLINGS[2]);
+	Insect.SetSensorCouplings(COUPLINGS[3], COUPLINGS[4]);
 
 	Insect.Reset(0, 0, 0); // NOTE: Might be unnecessary?
 
@@ -177,18 +179,18 @@ void ResultsDisplay(TSearch &s) {
 	TVector<double> bestVector;
 	ofstream BestIndividualFile;
 	TVector<double> phenotype;
-	phenotype.SetBounds(1, VectSize);
+	phenotype.SetBounds(1, GeneSize);
 
 	std::time_t t = std::time(nullptr);
 
 	// Save the genotype of the best individual
 	bestVector = s.BestIndividual();
-	BestIndividualFile.open("out/"+to_string(N)+"/"+"best/gen/"+to_string(t)+"_" + version +".dat");
+	BestIndividualFile.open("out/"+to_string(N)+"/"+"best/gen/"+fileName +".dat");
 	BestIndividualFile << bestVector << endl;
 	BestIndividualFile.close();
 
 	// Also show the best individual in the Circuit Model form
-	BestIndividualFile.open("out/"+to_string(N)+"/"+"best/ns/"+to_string(t)+"_" + version +".dat");
+	BestIndividualFile.open("out/"+to_string(N)+"/"+"best/ns/"+fileName +".dat");
 	GenPhenMapping(bestVector, phenotype);
 	LeggedAgent Insect;
 	// Instantiate the nervous system
@@ -213,22 +215,22 @@ void ResultsDisplay(TSearch &s) {
 		}
 	}
 
-	std::vector<std::vector<int> > couplings = {{},{},{},{},{}};
+	// std::vector<std::vector<int> > couplings = {{},{},{},{},{}};
 
-	for (int n = 1; n <= N; n++) {
-		for (int s = 0; s < 5; s++) {
-			if (phenotype[k] != 0)
-				couplings[s].push_back(phenotype(k)*n);
-			k++;
-		}
-	}
+	// for (int n = 1; n <= N; n++) {
+	// 	for (int s = 0; s < 5; s++) {
+	// 		if (phenotype[k] != 0)
+	// 			couplings[s].push_back(phenotype(k)*n);
+	// 		k++;
+	// 	}
+	// }
 
-	Insect.SetMotorCouplings(couplings[0], couplings[1], couplings[2]);
-	Insect.SetSensorCouplings(couplings[3], couplings[4]);
+	Insect.SetMotorCouplings(COUPLINGS[0], COUPLINGS[1], COUPLINGS[2]);
+	Insect.SetSensorCouplings(COUPLINGS[3], COUPLINGS[4]);
 
 	BestIndividualFile << Insect.NervousSystem << endl;
 
-	for (int i = 1; i <= VectSize; i++) {
+	for (int i = 1; i <= GeneSize; i++) {
 		BestIndividualFile << phenotype(i) << " ";
 	}
 
@@ -266,12 +268,27 @@ void test () {
 
 int main (int argc, const char* argv[]) {
 
-	version = argv[1];
+	N = argc - 1;
+
+	GeneSize = N*N + 2*N;
+
 	std::time_t t = std::time(nullptr);
 	// create randomseed from time in seconds and add version number*10^6 and remove 10^9 seconds to prevent hitting max long value and overflowing
-	long randomseed = ((long) t) - pow(10,9) + stol(version)*pow(10,6);
+	// long randomseed = ((long) t) - pow(10,9) + stol(version)*pow(10,6);
+	long randomseed = (long) t;
 
 	// long randomseed = 765234;
+
+	fileName = to_string(randomseed);
+
+	for (int i = 1; i < argc; i++){
+		fileName += "_" + string(argv[i]);
+		int val = stoi(argv[i]);
+		for (int j = 0; j < 4; j++) {
+			COUPLINGS[j].push_back(val%3 - 1);
+			val /= 3;
+		}
+	}
 
 	TSearch s(GeneSize);
 
@@ -282,7 +299,7 @@ int main (int argc, const char* argv[]) {
 	// #endif
 
 	#ifdef PRINTOFILE
-	std::ofstream outfile("out/"+to_string(N)+"/"+"evol/" + to_string(t)+ "_" + version + ".dat");
+	std::ofstream outfile("out/"+to_string(N)+"/"+"evol/" + fileName + ".dat");
 	auto cout_buff = std::cout.rdbuf();
 	std::cout.rdbuf(outfile.rdbuf()); // anything written to std::cout will now go to myFile.txt instead...
 	#endif

@@ -5,6 +5,7 @@
     "iomanip": "cpp",
     "iostream": "cpp",
     "iosfwd": "cpp",
-    "string": "cpp"
+    "string": "cpp",
+    "complex": "cpp"
   }
 }
