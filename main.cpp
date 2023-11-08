@@ -23,8 +23,8 @@ const double StepSizeAnalysis = 0.01;
 const double RunDurationAnalysis = 2200.0; 
 
 // EA params
-const int POPSIZE = 10; //96; //10; //96;
-const int GENS = 50; //1000; //50; //10000; 	// --- 5000
+const int POPSIZE = 96; //10; //96;
+const int GENS = 1000; //50; //10000; 	// --- 5000
 const double MUTVAR = 0.05; //0.01 // --- 0.05
 const double CROSSPROB = 0.0;
 const double EXPECTED = 1.1;
@@ -44,6 +44,8 @@ std::vector<std::vector<int>> COUPLINGS = {{},{},{},{},{}};
 
 string fileName;
 // string output;
+
+ofstream FitnessFile;
 
 void printVec(string s, std::vector <int> const &a) {
   std::cout << s;
@@ -157,6 +159,8 @@ double FitnessFunction(TVector<double> &genotype, RandomState &rs) {
 
 	double fitness = Insect.PositionX()/RunDuration;
 
+	FitnessFile << fitness << endl;
+
 	// if (fitness > 0.0) {
 	// 	for (k = 1; k <= VectSize; k++) {
 	// 		output += to_string(phenotype(k)) + " ";
@@ -181,16 +185,15 @@ void ResultsDisplay(TSearch &s) {
 	TVector<double> phenotype;
 	phenotype.SetBounds(1, GeneSize);
 
-	std::time_t t = std::time(nullptr);
 
 	// Save the genotype of the best individual
 	bestVector = s.BestIndividual();
-	BestIndividualFile.open("out/"+to_string(N)+"/"+"best/gen/"+fileName +".dat");
+	BestIndividualFile.open("out/"+to_string(N)+"/best/gen/"+fileName +".dat");
 	BestIndividualFile << bestVector << endl;
 	BestIndividualFile.close();
 
 	// Also show the best individual in the Circuit Model form
-	BestIndividualFile.open("out/"+to_string(N)+"/"+"best/ns/"+fileName +".dat");
+	BestIndividualFile.open("out/"+to_string(N)+"/best/ns/"+fileName +".dat");
 	GenPhenMapping(bestVector, phenotype);
 	LeggedAgent Insect;
 	// Instantiate the nervous system
@@ -299,10 +302,11 @@ int main (int argc, const char* argv[]) {
 	// #endif
 
 	#ifdef PRINTOFILE
-	std::ofstream outfile("out/"+to_string(N)+"/"+"evol/" + fileName + ".dat");
+	std::ofstream outfile("out/"+to_string(N)+"/evol/" + fileName + ".dat");
 	auto cout_buff = std::cout.rdbuf();
 	std::cout.rdbuf(outfile.rdbuf()); // anything written to std::cout will now go to myFile.txt instead...
 	#endif
+	FitnessFile.open("out/"+to_string(N)+"/fit/"+fileName +".dat");
 
 	// Configure the search
 	s.SetRandomSeed(randomseed);
@@ -338,6 +342,8 @@ int main (int argc, const char* argv[]) {
 	// genefile.close();
 
 	// cout << output;
+
+	FitnessFile.close();
 
 	return 0;
 }
