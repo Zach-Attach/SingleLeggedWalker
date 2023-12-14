@@ -1,0 +1,41 @@
+\begin{thebibliography}{}
+
+\bibitem[Beer, 2010]{BeerRPG}
+Beer, R.~D. (2010).
+\newblock Fitness space structure of a neuromechanical system.
+\newblock {\em Adaptive Behavior}, 18(2):93--115.
+
+\bibitem[Beer et~al., 1999]{BeerOptimal}
+Beer, R.~D., Chiel, H.~J., and Gallagher, J.~C. (1999).
+\newblock Evolution and analysis of model cpgs for walking: Ii. general
+  principles and individual variability.
+\newblock {\em J Comput Neurosci}, 7(2):119--47.
+
+\bibitem[Beer and Gallagher, 1992]{BeerWalker}
+Beer, R.~D. and Gallagher, J.~C. (1992).
+\newblock Evolving dynamical neural networks for adaptive behavior.
+\newblock {\em Adaptive Behavior}, 1(1):91--122.
+
+\bibitem[Li et~al., 2011]{CETouch}
+Li, W., Kang, L., Piggott, B.~J., Feng, Z., and Xu, X. Z.~S. (2011).
+\newblock The neural circuits and sensory channels mediating harsh touch
+  sensation in caenorhabditis elegans.
+\newblock {\em Nature Communications}, 2(1):315.
+
+\bibitem[Poulet and Hedwig, 2003]{CorollaryDischarge}
+Poulet, J. and Hedwig, B. (2003).
+\newblock A corollary discharge mechanism modulates central auditory processing
+  in singing crickets.
+\newblock {\em Journal of Neurophysiology}, 89(3):1528--1540.
+
+\bibitem[Sharma et~al., 2000]{Ferret}
+Sharma, J., Angelucci, A., and Sur, M. (2000).
+\newblock Induction of visual orientation modules in auditory cortex.
+\newblock {\em Nature}, 404(6780):841--847.
+
+\bibitem[Vanderhaeghen and Cheng, 2010]{AxonPruning}
+Vanderhaeghen, P. and Cheng, H.~J. (2010).
+\newblock Guidance molecules in axon pruning and cell death.
+\newblock {\em Cold Spring Harb Perspect Biol}, 2(6):a001859.
+
+\end{thebibliography}

@@ -6,6 +6,7 @@
     "iostream": "cpp",
     "iosfwd": "cpp",
     "string": "cpp",
-    "complex": "cpp"
+    "complex": "cpp",
+    "ios": "cpp"
   }
 }

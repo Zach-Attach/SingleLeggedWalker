@@ -28,22 +28,17 @@ inner(){
 }
 
 doubleN(){
-  for j in {1..121}
+  for i in {1..121}
   do
-    inner $j
+    inner $i
   done
-  for j in {121..242}
+  for i in {121..242}
   do
-    inner $j
+    inner $i
   done
 }
 
-for i in {1..100}
+for i in {1..10}
 do
   singleN
-done
-
-for i in {1..100}
-do
-  doubleN
 done
