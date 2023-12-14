@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2023.3.2)  14 DEC 2023 02:22
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2023.3.2)  14 DEC 2023 03:10
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -226,6 +226,11 @@ File: ../plots/network2N.png Graphic file (type png)
 <use ../plots/network2N.png>
 Package pdftex.def Info: ../plots/network2N.png  used on input line 50.
 (pdftex.def)             Requested size: 192.60127pt x 178.07083pt.
+
+Overfull \hbox (11.05138pt too wide) in paragraph at lines 58--59
+\OT1/cmr/m/n/10 neu-rons to con-trol a single-legged walker, in-spired by Beer & Gal-lagher's 1992 model [[]].
+ []
+
 [1
 
 {/usr/local/texlive/2022/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] [2 <../plots/leg.png> <../plots/network1N.png> <../plots/network2N.png>]
@@ -247,81 +252,81 @@ Package pdftex.def Info: ../plots/scatter1Working.png  used on input line 117.
 <../plots/trajectory1comparison.png, id=37, 361.35pt x 180.675pt>
 File: ../plots/trajectory1comparison.png Graphic file (type png)
 <use ../plots/trajectory1comparison.png>
-Package pdftex.def Info: ../plots/trajectory1comparison.png  used on input line 142.
+Package pdftex.def Info: ../plots/trajectory1comparison.png  used on input line 138.
 (pdftex.def)             Requested size: 150.32504pt x 75.16342pt.
 <../plots/angleTime1comparison.png, id=38, 361.35pt x 180.675pt>
 File: ../plots/angleTime1comparison.png Graphic file (type png)
 <use ../plots/angleTime1comparison.png>
-Package pdftex.def Info: ../plots/angleTime1comparison.png  used on input line 149.
+Package pdftex.def Info: ../plots/angleTime1comparison.png  used on input line 145.
 (pdftex.def)             Requested size: 150.32504pt x 75.16342pt.
 <../plots/dist_compare.png, id=39, 361.35pt x 180.675pt>
 File: ../plots/dist_compare.png Graphic file (type png)
 <use ../plots/dist_compare.png>
-Package pdftex.def Info: ../plots/dist_compare.png  used on input line 155.
-(pdftex.def)             Requested size: 150.32504pt x 75.16342pt.
-<../plots/angleTime1_170.png, id=40, 361.35pt x 180.675pt>
-File: ../plots/angleTime1_170.png Graphic file (type png)
-<use ../plots/angleTime1_170.png>
-Package pdftex.def Info: ../plots/angleTime1_170.png  used on input line 169.
-(pdftex.def)             Requested size: 150.32504pt x 75.16342pt.
-<../plots/angleTime1_170_LONG.png, id=41, 361.35pt x 180.675pt>
-File: ../plots/angleTime1_170_LONG.png Graphic file (type png)
-<use ../plots/angleTime1_170_LONG.png>
-Package pdftex.def Info: ../plots/angleTime1_170_LONG.png  used on input line 176.
-(pdftex.def)             Requested size: 150.32504pt x 75.16342pt.
-<../plots/dist_170_LONG_X.png, id=42, 361.35pt x 180.675pt>
-File: ../plots/dist_170_LONG_X.png Graphic file (type png)
-<use ../plots/dist_170_LONG_X.png>
-Package pdftex.def Info: ../plots/dist_170_LONG_X.png  used on input line 182.
+Package pdftex.def Info: ../plots/dist_compare.png  used on input line 151.
 (pdftex.def)             Requested size: 150.32504pt x 75.16342pt.
  [4 <../plots/trajectory1comparison.png> <../plots/angleTime1comparison.png> <../plots/dist_compare.png>]
+<../plots/angleTime1_170.png, id=46, 361.35pt x 180.675pt>
+File: ../plots/angleTime1_170.png Graphic file (type png)
+<use ../plots/angleTime1_170.png>
+Package pdftex.def Info: ../plots/angleTime1_170.png  used on input line 171.
+(pdftex.def)             Requested size: 150.32504pt x 75.16342pt.
+<../plots/angleTime1_170_LONG.png, id=47, 361.35pt x 180.675pt>
+File: ../plots/angleTime1_170_LONG.png Graphic file (type png)
+<use ../plots/angleTime1_170_LONG.png>
+Package pdftex.def Info: ../plots/angleTime1_170_LONG.png  used on input line 178.
+(pdftex.def)             Requested size: 150.32504pt x 75.16342pt.
+<../plots/dist_170_LONG_X.png, id=48, 361.35pt x 180.675pt>
+File: ../plots/dist_170_LONG_X.png Graphic file (type png)
+<use ../plots/dist_170_LONG_X.png>
+Package pdftex.def Info: ../plots/dist_170_LONG_X.png  used on input line 184.
+(pdftex.def)             Requested size: 150.32504pt x 75.16342pt.
 <../plots/scatter2.png, id=49, 361.35pt x 361.35pt>
 File: ../plots/scatter2.png Graphic file (type png)
 <use ../plots/scatter2.png>
-Package pdftex.def Info: ../plots/scatter2.png  used on input line 229.
+Package pdftex.def Info: ../plots/scatter2.png  used on input line 202.
 (pdftex.def)             Requested size: 234.8775pt x 234.88023pt.
 <../plots/scatter2WorkingPattern.png, id=50, 361.35pt x 361.35pt>
 File: ../plots/scatter2WorkingPattern.png Graphic file (type png)
 <use ../plots/scatter2WorkingPattern.png>
-Package pdftex.def Info: ../plots/scatter2WorkingPattern.png  used on input line 237.
+Package pdftex.def Info: ../plots/scatter2WorkingPattern.png  used on input line 210.
 (pdftex.def)             Requested size: 234.8775pt x 234.88023pt.
-<../plots/trajectory2_224_18.png, id=51, 433.62pt x 433.62pt>
+ [5 <../plots/angleTime1_170.png> <../plots/angleTime1_170_LONG.png> <../plots/dist_170_LONG_X.png> <../plots/scatter2.png> <../plots/scatter2WorkingPattern.png>]
+<../plots/trajectory2_224_18.png, id=59, 433.62pt x 433.62pt>
 File: ../plots/trajectory2_224_18.png Graphic file (type png)
 <use ../plots/trajectory2_224_18.png>
 Package pdftex.def Info: ../plots/trajectory2_224_18.png  used on input line 250.
 (pdftex.def)             Requested size: 234.8775pt x 234.87912pt.
-<../plots/angleTime2_224_18.png, id=52, 361.35pt x 361.35pt>
+<../plots/angleTime2_224_18.png, id=60, 361.35pt x 361.35pt>
 File: ../plots/angleTime2_224_18.png Graphic file (type png)
 <use ../plots/angleTime2_224_18.png>
 Package pdftex.def Info: ../plots/angleTime2_224_18.png  used on input line 258.
 (pdftex.def)             Requested size: 234.8775pt x 234.88023pt.
- [5 <../plots/angleTime1_170.png> <../plots/angleTime1_170_LONG.png> <../plots/dist_170_LONG_X.png>] [6 <../plots/scatter2.png> <../plots/scatter2WorkingPattern.png> <../plots/trajectory2_224_18.png> <../plots/angleTime2_224_18.png>]
-<../plots/angleTime2_224_18_Foot.png, id=66, 433.62pt x 289.08pt>
+<../plots/angleTime2_224_18_Foot.png, id=61, 433.62pt x 289.08pt>
 File: ../plots/angleTime2_224_18_Foot.png Graphic file (type png)
 <use ../plots/angleTime2_224_18_Foot.png>
 Package pdftex.def Info: ../plots/angleTime2_224_18_Foot.png  used on input line 272.
-(pdftex.def)             Requested size: 469.75502pt x 313.1854pt.
-<../plots/trajectory2_126_116.png, id=67, 433.62pt x 433.62pt>
+(pdftex.def)             Requested size: 375.80544pt x 250.5492pt.
+<../plots/trajectory2_126_116.png, id=62, 433.62pt x 433.62pt>
 File: ../plots/trajectory2_126_116.png Graphic file (type png)
 <use ../plots/trajectory2_126_116.png>
 Package pdftex.def Info: ../plots/trajectory2_126_116.png  used on input line 282.
 (pdftex.def)             Requested size: 234.8775pt x 234.87912pt.
-<../plots/angleTime2_126_116.png, id=68, 361.35pt x 361.35pt>
+<../plots/angleTime2_126_116.png, id=63, 361.35pt x 361.35pt>
 File: ../plots/angleTime2_126_116.png Graphic file (type png)
 <use ../plots/angleTime2_126_116.png>
 Package pdftex.def Info: ../plots/angleTime2_126_116.png  used on input line 290.
 (pdftex.def)             Requested size: 234.8775pt x 234.88023pt.
-<../plots/trajectory2_233_22.png, id=69, 433.62pt x 433.62pt>
+<../plots/trajectory2_233_22.png, id=64, 433.62pt x 433.62pt>
 File: ../plots/trajectory2_233_22.png Graphic file (type png)
 <use ../plots/trajectory2_233_22.png>
 Package pdftex.def Info: ../plots/trajectory2_233_22.png  used on input line 305.
 (pdftex.def)             Requested size: 234.8775pt x 234.87912pt.
-<../plots/angleTime2_233_22.png, id=70, 361.35pt x 361.35pt>
+<../plots/angleTime2_233_22.png, id=65, 361.35pt x 361.35pt>
 File: ../plots/angleTime2_233_22.png Graphic file (type png)
 <use ../plots/angleTime2_233_22.png>
 Package pdftex.def Info: ../plots/angleTime2_233_22.png  used on input line 313.
 (pdftex.def)             Requested size: 234.8775pt x 234.88023pt.
- [7 <../plots/angleTime2_224_18_Foot.png>] [8 <../plots/trajectory2_126_116.png> <../plots/angleTime2_126_116.png> <../plots/trajectory2_233_22.png> <../plots/angleTime2_233_22.png>]
+ [6] [7 <../plots/trajectory2_224_18.png> <../plots/angleTime2_224_18.png> <../plots/angleTime2_224_18_Foot.png>] [8 <../plots/trajectory2_126_116.png> <../plots/angleTime2_126_116.png> <../plots/trajectory2_233_22.png> <../plots/angleTime2_233_22.png>]
 Overfull \hbox (39.54797pt too wide) in paragraph at lines 339--340
 \OT1/cmr/m/n/10 All code used in this project is avail-able at \OT1/cmtt/m/n/10 https://github.com/Zach-Attach/SingleLeggedWalker/tree/pairing\OT1/cmr/m/n/10 . 
  []
@@ -330,13 +335,13 @@ Overfull \hbox (39.54797pt too wide) in paragraph at lines 339--340
 Here is how much of TeX's memory you used:
  4183 strings out of 478268
  72667 string characters out of 5846348
- 373529 words of memory out of 5000000
+ 376529 words of memory out of 5000000
  22361 multiletter control sequences out of 15000+600000
  475790 words of font info for 51 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 67i,9n,77p,2092b,498s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 67i,9n,77p,2151b,498s stack positions out of 10000i,1000n,20000p,200000b,200000s
 {/usr/local/texlive/2022/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}</usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb>
-Output written on main.pdf (10 pages, 3408514 bytes).
+Output written on main.pdf (10 pages, 3408377 bytes).
 PDF statistics:
  159 PDF objects out of 1000 (max. 8388607)
  74 compressed objects within 1 object stream

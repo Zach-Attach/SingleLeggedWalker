@@ -1,12 +1,12 @@
 # Fdb version 3
-["bibtex main"] 1702538471 "main.aux" "main.bbl" "main" 1702538576
+["bibtex main"] 1702541218 "main.aux" "main.bbl" "main" 1702541427
   "/usr/local/texlive/2022/texmf-dist/bibtex/bst/base/apalike.bst" 1292289607 24635 604dafcc79f521a11ea73e506e1fbd98 ""
-  "main.aux" 1702538576 7928 0b9678ce4f232258192de1167b0a47e7 "pdflatex"
+  "main.aux" 1702541426 7955 b57467590ed19f1b08c3cac6efeb3569 "pdflatex"
   "ref.bib" 1702523996 7548 5276b940835d6af93a55443872ba47e6 ""
   (generated)
   "main.bbl"
   "main.blg"
-["pdflatex"] 1702538570 "/Users/zyle/Code/SingleLeggedWalker/paper/main.tex" "main.pdf" "main" 1702538576
+["pdflatex"] 1702541420 "/Users/zyle/Code/SingleLeggedWalker/paper/main.tex" "main.pdf" "main" 1702541427
   "../plots/angleTime1_170.png" 1702506090 9851 919dfc6a156d488c352cf84830d53db4 ""
   "../plots/angleTime1_170_LONG.png" 1702506169 13225 bcee7b72d591e395e86609962f725944 ""
   "../plots/angleTime1comparison.png" 1702505475 180021 77b987c75cc7531ebe2adcacc164293f ""
@@ -27,7 +27,7 @@
   "../plots/trajectory2_126_116.png" 1702493861 370519 a262b0f2cd5fcd1d6baa1fbd4b199554 ""
   "../plots/trajectory2_224_18.png" 1702493828 365419 f2259ea6c140bed9f2999d3a47614b2c ""
   "../plots/trajectory2_233_22.png" 1702493871 333579 adda4bd9f61ff1956c6d286ab5b94fae ""
-  "/Users/zyle/Code/SingleLeggedWalker/paper/main.tex" 1702538570 28528 e4c6cb1817adb701d7705ec616deeb1d ""
+  "/Users/zyle/Code/SingleLeggedWalker/paper/main.tex" 1702541414 28797 a1b1eedb20298eb6054f1f0a9cb5f9d6 ""
   "/usr/local/texlive/2022/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1136849721 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "/usr/local/texlive/2022/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2022/texmf-dist/fonts/tfm/jknappen/ec/tcrm1000.tfm" 1136768653 1536 e07581a4bb3136ece9eeb4c3ffab8233 ""
@@ -92,9 +92,9 @@
   "/usr/local/texlive/2022/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1647878959 4410336 7d30a02e9fa9a16d7d1f8d037ba69641 ""
   "/usr/local/texlive/2022/texmf-var/web2c/pdftex/pdflatex.fmt" 1677795340 2826435 8a8e7df4b0d0f40a8963a6abe21acae4 ""
   "/usr/local/texlive/2022/texmf.cnf" 1647878952 577 209b46be99c9075fd74d4c0369380e8c ""
-  "main.aux" 1702538576 7928 0b9678ce4f232258192de1167b0a47e7 "pdflatex"
-  "main.bbl" 1702538471 1619 20b5bd8af6b90e4a456035678b44d0e0 "bibtex main"
-  "main.tex" 1702538570 28528 e4c6cb1817adb701d7705ec616deeb1d ""
+  "main.aux" 1702541426 7955 b57467590ed19f1b08c3cac6efeb3569 "pdflatex"
+  "main.bbl" 1702541218 1619 20b5bd8af6b90e4a456035678b44d0e0 "bibtex main"
+  "main.tex" 1702541414 28797 a1b1eedb20298eb6054f1f0a9cb5f9d6 ""
   (generated)
   "main.aux"
   "main.log"
