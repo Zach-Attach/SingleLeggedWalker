@@ -173,6 +173,17 @@ void LeggedAgent::Step(double StepSize)
 		}
 	}
 
+	if (forwardOutput > 1.0) {
+		forwardOutput = 1.0;
+	} else if (forwardOutput < 0.0) {
+		forwardOutput = 0.0;
+	}
+	if (backwardOutput > 1.0) {
+		backwardOutput = 1.0;
+	} else if (backwardOutput < 0.0) {
+		backwardOutput = 0.0;
+	}
+
 	Leg.ForwardForce = MaxLegForce * forwardOutput;
 	Leg.BackwardForce = MaxLegForce * backwardOutput;
 
